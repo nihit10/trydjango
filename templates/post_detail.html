@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+
+<div class='col-sm-6'>
+	<image src='{{ post.image.url }}' class='img-responsive' />
+{{post.content}}<br>
+
+{{post.timestamp}}<br>
+{{post.updated}}<br>
+
+
+{% endblock %}
