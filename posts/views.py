@@ -13,14 +13,14 @@ def post_list(request):
     #page_request_var="abc"
     #page = request.GET.get('page_request_var)
     page = request.GET.get('page')
-    posts = paginator.get_page(page)
-    return render(request, 'index.html', {'posts': posts})
+    posted = paginator.get_page(page)
+    return render(request, 'index.html', {'posts': posted})
 
 
 
     
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     return render(request, 'post_detail.html', {'post': post})
 
 def post_new(request):
@@ -37,8 +37,8 @@ def post_new(request):
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
 
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = PostForm(request.POST,request.FILES or None, instance=post) #diff instance=post for edit 
         if form.is_valid():
@@ -46,12 +46,12 @@ def post_edit(request, pk):
             #post.author = request.user
             #post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
 
 def post_delete(request,pk):
-    post = get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, slug=slug)
     post.delete()
-    return redirect('post_detail', pk=post.pk)
+    return redirect('post_detail', slug=post.slug)

@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse #absolute url
+from django.db.models.signals import pre_save
+from django.utils.text import  slugify
 
 
 def upload_location(instance,filename):
@@ -8,6 +10,7 @@ def upload_location(instance,filename):
 
 class Post(models.Model):
 	title=models.CharField(max_length=50)
+	slug=models.SlugField(unique=True, max_length=100)
 	#image=models.FileField(null=True,blank=True)
 	image=models.ImageField(upload_to=upload_location,null=True,blank=True,width_field="width_field",height_field="height_field")
 	height_field=models.IntegerField(default=0)
@@ -22,3 +25,17 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse("posted:post_detail",kwargs={"pk":self.pk})
 		#return "/posts/%s/" %(self.pk)
+
+
+def create_slug(instance, new_slug=None):
+	slug=slugify(intance.title)
+	if new_slug is not None:
+		slug=new_slug
+	qs=Post.objects.filter(slug=slug).order_by("-id")
+	exists=qs.exists()
+
+def pre_save_post_reciever(sender, instance, *args, **kwargs):
+	if not instance.slug:
+		instance.slug=create_slug(instance)
+
+pre_save.connect(pre_save_post_reciever, sender=Post)

@@ -2,7 +2,7 @@
 
 
 {% block content %}
-	{% for post in posts %}
+	{% for post in posted %}
 	<!--{% url 'posted:post_detail' pk=post.pk %}-->
 		<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1> 
 		<p>{{ post.content|linebreaksbr }}</p>
@@ -10,20 +10,20 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if posts.has_previous %}
+        {% if posted.has_previous %}
             <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ posts.previous_page_number }}">
+            <a href="?page={{ posted.previous_page_number }}">
             <!--<a href="?{{ page_request_var }}={{ posts.previous_page_number }}">	-->
             previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            Page {{ posted.number }} of {{ posted.paginator.num_pages }}.
         </span>
 
         {% if posts.has_next %}
-            <a href="?page={{ posts.next_page_number }}">next</a>
-            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ posted.next_page_number }}">next</a>
+            <a href="?page={{ posted.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
