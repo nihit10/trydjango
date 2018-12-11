@@ -4,7 +4,9 @@
 <h1>{{ post.title }}</h1>
 
 <div class='col-sm-6'>
+	{% if post.image %}
 	<image src='{{ post.image.url }}' class='img-responsive' />
+	{% endif %}
 {{post.content}}<br>
 
 {{post.timestamp}}<br>
