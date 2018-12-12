@@ -13,8 +13,8 @@ def post_list(request):
     #page_request_var="abc"
     #page = request.GET.get('page_request_var)
     page = request.GET.get('page')
-    posted = paginator.get_page(page)
-    return render(request, 'index.html', {'posts': posted})
+    posteed = paginator.get_page(page)
+    return render(request, 'index.html', {'posteed': posteed})
 
 
 
@@ -28,7 +28,7 @@ def post_new(request):
         form = PostForm(request.POST,request.FILES or None)
         if form.is_valid():
             post = form.save(commit=False)
-            #post.author = request.user
+            post.author = request.user
             #post.published_date = timezone.now()
             post.save()
             #return redirect('post_detail', pk=post.pk)
@@ -43,7 +43,7 @@ def post_edit(request, slug):
         form = PostForm(request.POST,request.FILES or None, instance=post) #diff instance=post for edit 
         if form.is_valid():
             post = form.save(commit=False)
-            #post.author = request.user
+            post.author = request.user
             #post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', slug=post.slug)
@@ -51,7 +51,7 @@ def post_edit(request, slug):
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
 
-def post_delete(request,pk):
+def post_delete(request,slug):
     post = get_object_or_404(Post, slug=slug)
     post.delete()
     return redirect('post_detail', slug=post.slug)
