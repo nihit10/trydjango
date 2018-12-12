@@ -19,8 +19,8 @@ def post_list(request):
 
 
     
-def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})
 
 def post_new(request):
@@ -37,8 +37,8 @@ def post_new(request):
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
 
-def post_edit(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST,request.FILES or None, instance=post) #diff instance=post for edit 
         if form.is_valid():
@@ -46,12 +46,12 @@ def post_edit(request, slug):
             post.author = request.user
             #post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', slug=post.slug)
+            return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
 
-def post_delete(request,slug):
-    post = get_object_or_404(Post, slug=slug)
+def post_delete(request,pk):
+    post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('post_detail', slug=post.slug)
+    return redirect('post_detail', pk=post.pk)
