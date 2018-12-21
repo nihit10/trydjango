@@ -21,7 +21,7 @@
             Page {{ posteed.number }} of {{ posteed.paginator.num_pages }}.
         </span>
 
-        {% if posts.has_next %}
+        {% if posteed.has_next %}
             <a href="?page={{ posteed.next_page_number }}">next</a>
             <a href="?page={{ posteed.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
