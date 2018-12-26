@@ -2,15 +2,33 @@
 
 {% block content %}
 <h1>{{ post.title }}</h1>
+Posted By: {{ post.author }}
+<div class="section" style="float: right;">
+{% if post.author == request.user %}
+	<a class="btn btn-dark" href="{% url 'posts:post_edit' pk=post.pk %}">Edit</a>
+    {% endif %}
 
-<div class='col-sm-6'>
+    {% if post.author == request.user %}
+    <a class="btn btn-dark" href="{% url 'posts:post_delete' pk=post.pk %}">Delete</a>
+    {% endif %}
+</div>    
+<hr>
+<div class='col-sm-9'>
 	{% if post.image %}
-	<image src='{{ post.image.url }}' class='img-responsive' />
+	<image src='{{ post.image.url }}' class='img-responsive' width="600" height="400"/>
 	{% endif %}
-{{post.content}}<br>
 
-{{post.timestamp}}<br>
+<br>
+<br>
+	
+
+{{post.content}}
+<br>
+
+
+<!--{{post.timestamp}}<br>-->
 {{post.updated}}<br>
+</div>
 
 
 {% endblock %}

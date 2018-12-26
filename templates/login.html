@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
+
 {% block content %}
-	<form method="POST">
+<br>
+<div class="col d-flex justify-content-center">
+<div class="card" style="width: 18rem;">
+  <div class="card-header">
+    LOGIN
+    </div>
+  <div class="card-body">
+  <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        <small>
+          <a href="{% url 'posted:register' %}">Register</a>
+        </small>
+        <br>
         <input type="submit" name="Login"class="btn btn-outline-success">
     </form>
+  </div>
+</div>
+</div>
 {% endblock %}

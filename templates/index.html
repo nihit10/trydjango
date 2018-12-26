@@ -2,19 +2,60 @@
 
 
 {% block content %}
-	{% for post in posteed %}
+<br>
+{% for post in posteed %}
+<div class="card">
+    <div class="card-body">
 	<!--{% url 'posted:post_detail' pk=post.pk %}-->
-		<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1> 
-		<p>{{ post.content|linebreaksbr }}</p>
+		<h5 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5> 
+		<p class="card-text">{{ post.content|linebreaksbr|truncatechars:200 }}</p>
+      <p class="card-text">Author: {{ post.author }}</p>
+      <p class="card-text">{{ post.updated }}</p>
+
+    
+    </div>
+</div>
+<br>
+    {% empty %}
+      <div class="container-fluid">
+        <h3>No Posts Found having search query "{{ request.GET.q }}"</h3>
+      </div>
     {% endfor %}
 
-<div class="pagination">
+<ul class="pagination">
+  {% if posteed.has_previous %}
+    <li class="page-item">
+      <a href="?page={{ posteed.previous_page_number }}" class="page-link">&laquo;</a>
+    </li>
+  {% endif %}
+
+  {% for post in posteed.paginator.page_range %}
+    {% if posteed.number == post %}
+      <li class="page-item active">
+        <a href="?page={{ post }}" class="page-link">{{ post }}</a>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a href="?page={{ post }}" class="page-link">{{ post }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+
+
+  {% if posteed.has_next %}
+    <li class="page-item">
+      <a href="?page={{ posteed.next_page_number }}" class="page-link">&raquo;</a>
+    </li>
+  {% endif %}
+</ul>
+
+<!--<div class="pagination">
     <span class="step-links">
         {% if posteed.has_previous %}
             <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ posteed.previous_page_number }}">
+            <a href="?page={{ posteed.previous_page_number }}">-->
             <!--<a href="?{{ page_request_var }}={{ posts.previous_page_number }}">	-->
-            previous</a>
+           <!-- previous</a>
         {% endif %}
 
         <span class="current">
@@ -26,7 +67,7 @@
             <a href="?page={{ posteed.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
+</div>-->
  
  
 
